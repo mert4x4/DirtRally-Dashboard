@@ -19,12 +19,14 @@ def sendToServer(data):
 	
 	
 while True:
-    data, addr = sock.recvfrom(256)
+    data, addr = sock.recvfrom(512)
     time = parse(0,4)
     speed = int(parse(28,32)*3.6)
     gear = int(parse(132,136))
     distance = int(parse(8,12))
     distance2 = int(parse(12,16))
-    print ("speed: ",speed," ","gear: ",gear,"distance: ",distance2)
-    PostData = {'gear':gear,'speed':speed,'time':time}
+    brake = int(parse(124,128))
+    throttle = int(parse(116,120))
+    engineSpeed = int(parse(148,152)/100)
+    PostData = {'gear':gear,'speed':speed,'rpm':engineSpeed,'brake':brake, 'throttle':throttle}
     sendToServer(PostData)
